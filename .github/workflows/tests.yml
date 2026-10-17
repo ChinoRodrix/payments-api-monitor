@@ -6,13 +6,14 @@ on:
     branches:
       - main
       - feature/incident-persistence
+
   pull_request:
     branches:
       - main
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout repository
