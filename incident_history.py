@@ -55,7 +55,8 @@ def construir_historico(registros):
             if estado == "DEGRADED":
                 incidente = {
                     "id": gerar_id(endpoint, timestamp),
-                    "endpoint": endpoint,
+                    "service_name": endpoint,
+                    "endpoint": dados[0]["endpoint"],
                     "inicio_degradacao": timestamp,
                     "confirmacao_critica": None,
                     "recuperacao": None,

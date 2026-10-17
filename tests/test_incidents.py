@@ -140,8 +140,13 @@ class TestIncidentDetection(unittest.TestCase):
         self.assertEqual(incidente["estado"], "RECOVERED")
         self.assertEqual(incidente["duracao_segundos"], 5.0)
         self.assertEqual(
-            incidente["endpoint"],
+              incidente["service_name"],
             "payment-authorization-api"
+        )
+
+        self.assertEqual(
+            incidente["endpoint"],
+            "https://httpbin.org/status/500"
         )
 
 

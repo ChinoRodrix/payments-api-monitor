@@ -25,7 +25,7 @@ def sincronizar_incidentes():
     for incidente in historico.values():
         registro = {
             "incident_id": incidente["id"],
-            "service_name": incidente["endpoint"],
+            "service_name": incidente["service_name"],
             "status": incidente["estado"],
             "detected_at": incidente["inicio_degradacao"],
             "confirmed_at": incidente["confirmacao_critica"],
