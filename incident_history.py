@@ -38,8 +38,8 @@ def construir_historico(registros):
     endpoints = {}
 
     for registro in registros:
-        endpoint = registro["endpoint"]
-        endpoints.setdefault(endpoint, []).append(registro)
+        servico = registro.get("service_name") or registro["endpoint"]
+        endpoints.setdefault(servico, []).append(registro)
 
     historico = {}
 

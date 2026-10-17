@@ -83,6 +83,7 @@ def analisar_endpoint(registros):
     return estado, eventos
 
 
+
 def executar():
     registros = carregar_registros()
 
@@ -90,19 +91,21 @@ def executar():
         print("Nenhum registro encontrado.")
         return
 
-    endpoints = defaultdict(list)
+    servicos = defaultdict(list)
 
     for registro in registros:
-        endpoints[registro["endpoint"]].append(registro)
+        servico = registro.get("service_name") or registro["endpoint"]
+        servicos[servico].append(registro)
 
-    print("\nPAYMENTS API MONITOR v0.5")
+    print("\nPAYMENTS API MONITOR v0.8")
     print("=" * 50)
 
-    for endpoint, dados in endpoints.items():
-        # Os logs atuais já são gravados em ordem de coleta.
+    for servico, dados in servicos.items():
+        dados.sort(key=lambda r: r["timestamp"])
+
         estado, eventos = analisar_endpoint(dados)
 
-        print(f"\nEndpoint: {endpoint}")
+        print(f"\nServiço: {servico}")
         print(f"Estado atual: {estado}")
 
         for evento in eventos:
@@ -112,4 +115,6 @@ def executar():
 
 
 if __name__ == "__main__":
+   
+
     executar()

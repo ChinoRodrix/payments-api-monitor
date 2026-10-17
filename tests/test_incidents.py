@@ -107,5 +107,46 @@ class TestIncidentDetection(unittest.TestCase):
         self.assertEqual(len(recuperacoes), 1)
 
 
+    def testar_identidade_estavel(self):
+        from incident_history import construir_historico
+
+        resultados = [
+            "ERRO_SERVIDOR",
+            "ERRO_SERVIDOR",
+            "ERRO_SERVIDOR",
+            "OK",
+            "OK",
+            "OK",
+        ]
+
+        registros = []
+
+        for i, resultado in enumerate(resultados):
+            codigo = "500" if resultado != "OK" else "200"
+
+            registros.append({
+                "service_name": "payment-authorization-api",
+                "endpoint": f"https://httpbin.org/status/{codigo}",
+                "timestamp": f"2026-10-16T12:00:{i:02d}+00:00",
+                "resultado": resultado,
+            })
+
+        historico = construir_historico(registros)
+
+        self.assertEqual(len(historico), 1)
+
+        incidente = next(iter(historico.values()))
+
+        self.assertEqual(incidente["estado"], "RECOVERED")
+        self.assertEqual(incidente["duracao_segundos"], 5.0)
+        self.assertEqual(
+            incidente["endpoint"],
+            "payment-authorization-api"
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
+
+
+
