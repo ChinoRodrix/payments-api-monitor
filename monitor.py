@@ -5,8 +5,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
-
 URL = "https://httpbin.org/status/200"
+SERVICE_NAME = "payment-authorization-api"
 INTERVALO = 10
 TIMEOUT = 5
 
@@ -43,6 +43,7 @@ def monitorar_api():
 
     return {
         "timestamp": data,
+        "service_name": SERVICE_NAME,
         "endpoint": URL,
         "http_status": codigo,
         "latencia_ms": latencia,

@@ -38,8 +38,8 @@ def construir_historico(registros):
     endpoints = {}
 
     for registro in registros:
-        endpoint = registro["endpoint"]
-        endpoints.setdefault(endpoint, []).append(registro)
+        servico = registro.get("service_name") or registro["endpoint"]
+        endpoints.setdefault(servico, []).append(registro)
 
     historico = {}
 
@@ -55,7 +55,8 @@ def construir_historico(registros):
             if estado == "DEGRADED":
                 incidente = {
                     "id": gerar_id(endpoint, timestamp),
-                    "endpoint": endpoint,
+                    "service_name": endpoint,
+                    "endpoint": dados[0]["endpoint"],
                     "inicio_degradacao": timestamp,
                     "confirmacao_critica": None,
                     "recuperacao": None,
